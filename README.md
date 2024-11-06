@@ -53,3 +53,57 @@ Checklist di atas diimplementasikan dengan cara sebagai berikut:
 
 Implementasi ini memastikan bahwa aplikasi tidak hanya berfungsi dengan baik tetapi juga memberikan pengalaman pengguna yang interaktif dan responsif.
 
+# Tugas 8
+
+### 1. Kegunaan const di Flutter
+**Kegunaan const**: `const` digunakan untuk mendeklarasikan variabel yang nilainya tetap dan tidak dapat diubah. Keuntungan menggunakan `const` adalah:
+- **Performa**: Mengurangi penggunaan memori karena objek yang dideklarasikan dengan `const` hanya dibuat sekali dan dapat digunakan kembali.
+- **Konsistensi**: Memastikan bahwa nilai tidak berubah selama siklus hidup aplikasi.
+
+**Kapan menggunakan const**: Gunakan `const` ketika Anda tahu bahwa nilai tidak akan berubah dan dapat ditentukan pada waktu kompilasi.
+
+**Kapan tidak menggunakan const**: Hindari `const` jika nilai variabel perlu diubah selama runtime.
+
+### 2. Perbandingan Column dan Row
+**Column** dan **Row** adalah widget layout yang digunakan untuk mengatur elemen dalam arah vertikal dan horizontal.
+
+- **Column**: Mengatur widget secara vertikal.
+  ```dart
+  Column(
+    children: <Widget>[
+      Text('Item 1'),
+      Text('Item 2'),
+      Text('Item 3'),
+    ],
+  )
+  ```
+
+- **Row**: Mengatur widget secara horizontal.
+  ```dart
+  Row(
+    children: <Widget>[
+      Text('Item A'),
+      Text('Item B'),
+      Text('Item C'),
+    ],
+  )
+  ```
+
+### 3. Elemen Input pada Halaman Form
+Pada halaman form yang dibuat, elemen input yang digunakan antara lain:
+- `TextField`: Untuk input teks.
+- `Checkbox`: Untuk pilihan ya/tidak.
+- `DropdownButton`: Untuk pilihan dari daftar.
+
+**Elemen input lain yang tidak digunakan**: 
+- `Radio`: Untuk pilihan tunggal dari beberapa opsi.
+- `Slider`: Untuk input nilai numerik dalam rentang tertentu.
+
+### 4. Mengatur Tema dalam Aplikasi Flutter
+Untuk mengatur tema dalam aplikasi Flutter, Anda dapat menggunakan `ThemeData` dalam widget `MaterialApp`. Ini memastikan konsistensi dalam warna, font, dan gaya di seluruh aplikasi.
+
+**Implementasi tema**: Ya, tema telah diimplementasikan dalam aplikasi dengan mendefinisikan warna dan gaya di `MaterialApp`.
+
+### 5. Menangani Navigasi dalam Aplikasi
+Navigasi dalam aplikasi dengan banyak halaman dapat ditangani menggunakan `Navigator` dan `Routes`. Anda dapat mendefinisikan rute dalam `MaterialApp` dan menggunakan `Navigator.push` untuk berpindah antar halaman.
+
