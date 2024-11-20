@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:stratified_mobile/models/product.dart';
 
 class ProductEntryFormPage extends StatefulWidget {
   const ProductEntryFormPage({super.key});
@@ -9,19 +10,17 @@ class ProductEntryFormPage extends StatefulWidget {
 
 class _ProductEntryFormPageState extends State<ProductEntryFormPage> {
   final _formKey = GlobalKey<FormState>();
-  String _product = "";
+  String _name = "";
+  String _price = "";
   String _description = "";
-  int _productAmount = 0;
+  String _image = "";
+  int _user = 1; // Assuming a default user ID; adjust as necessary
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Center(
-          child: Text(
-            'Form Tambah product Kamu Hari ini',
-          ),
-        ),
+        title: const Center(child: Text('Form Tambah Product')),
         backgroundColor: Theme.of(context).colorScheme.primary,
         foregroundColor: Colors.white,
       ),
@@ -35,20 +34,43 @@ class _ProductEntryFormPageState extends State<ProductEntryFormPage> {
                 padding: const EdgeInsets.all(8.0),
                 child: TextFormField(
                   decoration: InputDecoration(
-                    hintText: "Product",
-                    labelText: "Product",
+                    hintText: "Product Name",
+                    labelText: "Product Name",
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(5.0),
                     ),
                   ),
                   onChanged: (String? value) {
                     setState(() {
-                      _product = value!;
+                      _name = value!;
                     });
                   },
                   validator: (String? value) {
                     if (value == null || value.isEmpty) {
-                      return "Product tidak boleh kosong!";
+                      return "Product name cannot be empty!";
+                    }
+                    return null;
+                  },
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: TextFormField(
+                  decoration: InputDecoration(
+                    hintText: "Price",
+                    labelText: "Price",
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(5.0),
+                    ),
+                  ),
+                  onChanged: (String? value) {
+                    setState(() {
+                      _price = value!;
+                    });
+                  },
+                  validator: (String? value) {
+                    if (value == null || value.isEmpty) {
+                      return "Price cannot be empty!";
                     }
                     return null;
                   },
@@ -71,7 +93,7 @@ class _ProductEntryFormPageState extends State<ProductEntryFormPage> {
                   },
                   validator: (String? value) {
                     if (value == null || value.isEmpty) {
-                      return "Description tidak boleh kosong!";
+                      return "Description cannot be empty!";
                     }
                     return null;
                   },
@@ -81,23 +103,20 @@ class _ProductEntryFormPageState extends State<ProductEntryFormPage> {
                 padding: const EdgeInsets.all(8.0),
                 child: TextFormField(
                   decoration: InputDecoration(
-                    hintText: "Product amount",
-                    labelText: "Product amount",
+                    hintText: "Image URL",
+                    labelText: "Image URL",
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(5.0),
                     ),
                   ),
                   onChanged: (String? value) {
                     setState(() {
-                      _productAmount = int.tryParse(value!) ?? 0;
+                      _image = value!;
                     });
                   },
                   validator: (String? value) {
                     if (value == null || value.isEmpty) {
-                      return "Product amount tidak boleh kosong!";
-                    }
-                    if (int.tryParse(value) == null) {
-                      return "Product amount harus berupa angka!";
+                      return "Image URL cannot be empty!";
                     }
                     return null;
                   },
@@ -114,18 +133,33 @@ class _ProductEntryFormPageState extends State<ProductEntryFormPage> {
                     ),
                     onPressed: () {
                       if (_formKey.currentState!.validate()) {
+                        // Create a new Product instance
+                        Product newProduct = Product(
+                          model: "ProductModel", // Adjust as necessary
+                          pk: "1", // Adjust as necessary
+                          fields: Fields(
+                            user: _user,
+                            name: _name,
+                            price: _price,
+                            description: _description,
+                            image: _image,
+                          ),
+                        );
+
+                        // Show confirmation dialog
                         showDialog(
                           context: context,
                           builder: (context) {
                             return AlertDialog(
-                              title: const Text('product berhasil tersimpan'),
+                              title: const Text('Product Successfully Saved'),
                               content: SingleChildScrollView(
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Text('Product: $_product'),
-                                    Text('Description: $_description'),
-                                    Text('Product amount: $_productAmount'),
+                                    Text('Product Name: ${newProduct.fields.name}'),
+                                    Text('Price: ${newProduct.fields.price}'),
+                                    Text('Description: ${newProduct.fields.description}'),
+                                    Text('Image URL: ${newProduct.fields.image}'),
                                   ],
                                 ),
                               ),
