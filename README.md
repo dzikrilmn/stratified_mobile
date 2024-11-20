@@ -107,3 +107,34 @@ Untuk mengatur tema dalam aplikasi Flutter, Anda dapat menggunakan `ThemeData` d
 ### 5. Menangani Navigasi dalam Aplikasi
 Navigasi dalam aplikasi dengan banyak halaman dapat ditangani menggunakan `Navigator` dan `Routes`. Anda dapat mendefinisikan rute dalam `MaterialApp` dan menggunakan `Navigator.push` untuk berpindah antar halaman.
 
+# Tugas 9
+
+## 1. Mengapa Kita Perlu Membuat Model untuk Melakukan Pengambilan atau Pengiriman Data JSON?
+Membuat model untuk pengambilan atau pengiriman data JSON sangat penting karena model memberikan struktur yang jelas untuk data yang kita gunakan dalam aplikasi. Dengan model, kita dapat memastikan bahwa data yang diterima atau dikirim sesuai dengan format yang diharapkan. Jika kita tidak membuat model terlebih dahulu, kemungkinan besar akan terjadi error, seperti kesalahan dalam penamaan atribut atau tipe data yang tidak sesuai. Hal ini dapat menyebabkan aplikasi tidak dapat memproses data dengan benar, yang pada akhirnya dapat mengakibatkan crash atau perilaku yang tidak diinginkan.
+
+## 2. Fungsi dari Library HTTP
+Library `http` digunakan untuk melakukan permintaan HTTP ke server. Dalam tugas ini, library ini memungkinkan aplikasi untuk berkomunikasi dengan backend Django, baik untuk mengambil data (GET) maupun mengirim data (POST). Dengan menggunakan library ini, kita dapat dengan mudah mengelola permintaan dan respons, serta menangani berbagai jenis data, termasuk JSON.
+
+## 3. Fungsi dari CookieRequest
+`CookieRequest` adalah kelas yang digunakan untuk mengelola permintaan HTTP dengan dukungan untuk cookie. Ini penting dalam konteks autentikasi, di mana cookie digunakan untuk menyimpan informasi sesi pengguna. Instance `CookieRequest` perlu dibagikan ke semua komponen di aplikasi Flutter agar setiap permintaan yang dilakukan dapat membawa informasi sesi yang sama, sehingga pengguna tetap terautentikasi saat berpindah antar halaman.
+
+## 4. Mekanisme Pengiriman Data
+Mekanisme pengiriman data dimulai dari input pengguna melalui elemen form di Flutter, seperti `TextField` untuk nama produk, harga, deskripsi, dan URL gambar. Setelah pengguna mengisi form dan menekan tombol "Save", data tersebut akan dikumpulkan dan dikirim ke server menggunakan `http` atau `CookieRequest`. Server kemudian memproses data tersebut, menyimpannya dalam database, dan mengirimkan respons kembali ke aplikasi. Aplikasi kemudian dapat menampilkan data yang diperoleh dari server, misalnya, dengan memperbarui tampilan menggunakan `setState()`.
+
+## 5. Mekanisme Autentikasi
+Mekanisme autentikasi dimulai dengan pengguna memasukkan data akun (username dan password) pada halaman login di Flutter. Data ini kemudian dikirim ke server Django menggunakan permintaan POST. Django memverifikasi kredensial dan mengembalikan respons yang menunjukkan apakah autentikasi berhasil atau tidak. Jika berhasil, Django mengatur cookie sesi yang menyimpan informasi autentikasi. Setelah itu, pengguna diarahkan ke halaman menu utama di Flutter, di mana mereka dapat melihat opsi yang tersedia. Proses logout dilakukan dengan menghapus cookie sesi, yang mengakhiri sesi pengguna.
+
+## 6. Implementasi Checklist Secara Step-by-Step
+1. **Membuat Proyek Flutter**: Saya memulai dengan membuat proyek Flutter baru dengan tema E-Commerce.
+2. **Membuat Model**: Saya membuat model untuk produk yang akan digunakan untuk pengambilan dan pengiriman data JSON.
+3. **Mengimplementasikan Library HTTP**: Saya menambahkan library `http` untuk melakukan permintaan ke server.
+4. **Membuat Halaman Login dan Register**: Saya membuat halaman untuk login dan register, termasuk form input untuk username dan password.
+5. **Membuat Halaman Menu**: Saya membuat halaman menu yang menampilkan tombol untuk melihat daftar produk, menambah produk, dan logout.
+6. **Mengimplementasikan Navigasi**: Saya menggunakan `Navigator` untuk berpindah antar halaman.
+7. **Mengelola Status**: Saya menggunakan `setState()` untuk memperbarui tampilan berdasarkan interaksi pengguna.
+8. **Mengimplementasikan Autentikasi**: Saya menghubungkan halaman login dan register dengan backend Django untuk autentikasi pengguna.
+9. **Menangani Respons**: Saya menangani respons dari server untuk memberikan umpan balik kepada pengguna, seperti berhasil atau gagal dalam proses login dan register.
+10. **Pengujian**: Saya melakukan pengujian untuk memastikan semua fitur berfungsi dengan baik dan tidak ada error.
+
+Implementasi ini memastikan bahwa aplikasi tidak hanya berfungsi dengan baik tetapi juga memberikan pengalaman pengguna yang interaktif dan responsif.
+

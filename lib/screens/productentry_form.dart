@@ -1,5 +1,9 @@
+import 'dart:convert'; // Import for jsonEncode
 import 'package:flutter/material.dart';
+import 'package:pbp_django_auth/pbp_django_auth.dart';
+import 'package:provider/provider.dart';
 import 'package:stratified_mobile/models/product.dart';
+import 'package:stratified_mobile/screens/home_page.dart'; // Import your home page
 
 class ProductEntryFormPage extends StatefulWidget {
   const ProductEntryFormPage({super.key});
@@ -18,6 +22,7 @@ class _ProductEntryFormPageState extends State<ProductEntryFormPage> {
 
   @override
   Widget build(BuildContext context) {
+    final request = context.watch<CookieRequest>();
     return Scaffold(
       appBar: AppBar(
         title: const Center(child: Text('Form Tambah Product')),
@@ -131,50 +136,41 @@ class _ProductEntryFormPageState extends State<ProductEntryFormPage> {
                       backgroundColor: MaterialStateProperty.all(
                           Theme.of(context).colorScheme.primary),
                     ),
-                    onPressed: () {
+                    onPressed: () async {
                       if (_formKey.currentState!.validate()) {
-                        // Create a new Product instance
-                        Product newProduct = Product(
-                          model: "ProductModel", // Adjust as necessary
-                          pk: "1", // Adjust as necessary
-                          fields: Fields(
-                            user: _user,
-                            name: _name,
-                            price: _price,
-                            description: _description,
-                            image: _image,
-                          ),
+                        // Send data to Django backend and wait for the response
+                        final response = await request.postJson(
+                          "http://127.0.0.1:8000/create-flutter/", // Replace with your actual URL
+                          jsonEncode(<String, String>{
+                            'model': 'ProductModel', // Adjust if needed
+                            'pk': '1', // Primary key or unique identifier (adjust as necessary)
+                            'user': _user.toString(),
+                            'name': _name,
+                            'price': _price,
+                            'description': _description,
+                            'image': _image,
+                          }),
                         );
 
-                        // Show confirmation dialog
-                        showDialog(
-                          context: context,
-                          builder: (context) {
-                            return AlertDialog(
-                              title: const Text('Product Successfully Saved'),
-                              content: SingleChildScrollView(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text('Product Name: ${newProduct.fields.name}'),
-                                    Text('Price: ${newProduct.fields.price}'),
-                                    Text('Description: ${newProduct.fields.description}'),
-                                    Text('Image URL: ${newProduct.fields.image}'),
-                                  ],
-                                ),
+                        if (context.mounted) {
+                          if (response['status'] == 'success') {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                content: Text("Product berhasil disimpan!"),
                               ),
-                              actions: [
-                                TextButton(
-                                  child: const Text('OK'),
-                                  onPressed: () {
-                                    Navigator.pop(context);
-                                    _formKey.currentState!.reset();
-                                  },
-                                ),
-                              ],
                             );
-                          },
-                        );
+                            Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(builder: (context) => MyHomePage()), // Adjust to your home page
+                            );
+                          } else {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                content: Text("Terdapat kesalahan, silakan coba lagi."),
+                              ),
+                            );
+                          }
+                        }
                       }
                     },
                     child: const Text(
@@ -191,3 +187,4 @@ class _ProductEntryFormPageState extends State<ProductEntryFormPage> {
     );
   }
 }
+

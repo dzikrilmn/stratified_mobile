@@ -19,7 +19,7 @@ class LeftDrawer extends StatelessWidget {
     child: const Column(
       children: [
         Text(
-          'Mental Health Tracker',
+          'Stratified',
           textAlign: TextAlign.center,
           style: TextStyle(
             fontSize: 24,
@@ -29,7 +29,7 @@ class LeftDrawer extends StatelessWidget {
         ),
         Padding(padding: EdgeInsets.all(8)),
         Text(
-          "Ayo jaga kesehatan mentalmu setiap hari disini!",
+          "---",
           textAlign: TextAlign.center,
           style: TextStyle(
             fontSize: 15,
